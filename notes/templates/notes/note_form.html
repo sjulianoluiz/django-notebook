@@ -1,0 +1,17 @@
+{% extends 'notes/base.html' %}
+{% block content %}
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+  </form>
+  {% if note %}
+    <a href="{% url 'note-detail' note.id %}">
+      <button>Cancel</button>
+    </a>
+  {% else %}
+    <a href="{% url 'note-list' %}">
+      <button>Cancel</button>
+    </a>
+  {% endif %}
+{% endblock %}

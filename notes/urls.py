@@ -11,5 +11,20 @@ urlpatterns = [
     'note/<int:pk>',
     views.NoteDetailView.as_view(),
     name='note-detail'
+  ),
+  path(
+    'note/create',
+    views.NoteCreateView.as_view(),
+    name='note-create'
+  ),
+  path(
+    'note/<int:pk>/update',
+    views.NoteUpdateView.as_view(),
+    name='note-update'
+  ),
+  path(
+    'note/<int:pk>/delete',
+    views.NoteDeleteView.as_view(),
+    name='note-delete'
   )
 ]

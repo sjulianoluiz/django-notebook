@@ -1,0 +1,14 @@
+{% extends 'notes/base.html' %}
+{% block content %}
+  <form method="POST">
+    {% csrf_token %}
+    <p>
+      Are you sure you wat to delete <em>{{ note.title }}</em> created on 
+      {{ note.date_created|date:'Y-m-d' }}?
+    </p>
+    <input type="submit" value="Confirm">
+  </form>
+  <a href="{% url 'note-detail' note.id %}">
+    <button>Cancel</button>
+  </a>
+{% endblock %}
