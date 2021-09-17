@@ -1,12 +1,16 @@
-{% for note in note_list %}
-  <article>
-    <h2 class="{{ note.date_created|date:'l' }}">
-      {{ note.date_created|date:'Y-m-d H:i' }}
-    </h2>
-    <h3>
-      <a href="{% url 'note-detail' note.id %}">
-        {{ note.title }}
-      </a>
-    </h3>
-  </article>
-{% endfor %}
+{% extends 'notes/base.html' %}
+
+{% block content %}
+  {% for note in note_list %}
+    <article>
+      <h2 class="{{ note.date_created|date:'l' }}">
+        {{ note.date_created|date:'Y-m-d H:i' }}
+      </h2>
+      <h3>
+        <a href="{% url 'note-detail' note.id %}">
+          {{ note.title }}
+        </a>
+      </h3>
+    </article>
+  {% endfor %}
+{% endblock %}

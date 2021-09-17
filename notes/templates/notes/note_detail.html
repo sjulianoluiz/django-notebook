@@ -1,5 +1,9 @@
-<article>
-  <h2>{{ note.date_created|date:'Y-m-d H:i' }}</h2>
-  <h3>{{ note.title }}</h3>
-  <p>{{ note.content }}</p>
-</article>
+{% extends 'notes/base.html' %}
+
+{% block content %}
+  <article>
+    <h2>{{ note.date_created|date:'Y-m-d H:i' }}</h2>
+    <h3>{{ note.title }}</h3>
+    <p>{{ note.content }}</p>
+  </article>
+{% endblock %}
