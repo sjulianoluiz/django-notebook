@@ -1,3 +1,4 @@
+from django.urls import reverse_lazy
 from django.views.generic import (
   ListView,
   DetailView,
@@ -5,8 +6,8 @@ from django.views.generic import (
   UpdateView,
   DeleteView
 )
-from django.urls import reverse_lazy
-from django.views.generic.edit import DeleteView
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from .models import Note
 
 class NoteListView(ListView):
@@ -16,21 +17,28 @@ class NoteListView(ListView):
 class NoteDetailView(DetailView):
   model = Note
 
-class NoteCreateView(CreateView):
+class NoteCreateView(SuccessMessageMixin, CreateView):
   model = Note
   fields = ['title', 'content']
   success_url = reverse_lazy('note-list')
+  success_message = 'Your new note was created!'
 
-class NoteUpdateView(UpdateView):
+class NoteUpdateView(SuccessMessageMixin, UpdateView):
   model = Note
   fields = ['title', 'content']
+  success_message = 'Your note was updated!'
 
   def get_success_url(self):
     return reverse_lazy(
       'note-detail',
-      kwargs={'pk': self.note.id}
+      kwargs={'pk': self.object.pk}
     )
 
 class NoteDeleteView(DeleteView):
   model = Note
   success_url = reverse_lazy('note-list')
+  success_message = 'Your note was deleted!'
+
+  def delete(self, request, *args, **kwargs):
+    messages.success(self.request, self.success_message)
+    return super().delete(request, *args, **kwargs)

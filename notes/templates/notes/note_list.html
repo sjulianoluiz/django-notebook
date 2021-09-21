@@ -1,6 +1,12 @@
 {% extends 'notes/base.html' %}
 
 {% block content %}
+  <article>
+    <a href="{% url 'note-create' %}">
+      <button>Add new note</button>
+    </a>
+  </article>
+
   {% for note in note_list %}
     <article>
       <h2 class="{{ note.date_created|date:'l' }}">
