@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import (
   ListView,
@@ -10,20 +11,23 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import Note
 
-class NoteListView(ListView):
+class LoginView(LoginRequiredMixin):
+  login_url = 'admin:login'
+
+class NoteListView(LoginView, ListView):
   model = Note
   queryset = Note.objects.all().order_by('-date_created')
 
-class NoteDetailView(DetailView):
+class NoteDetailView(LoginView, DetailView):
   model = Note
 
-class NoteCreateView(SuccessMessageMixin, CreateView):
+class NoteCreateView(LoginView, SuccessMessageMixin, CreateView):
   model = Note
   fields = ['title', 'content']
   success_url = reverse_lazy('note-list')
   success_message = 'Your new note was created!'
 
-class NoteUpdateView(SuccessMessageMixin, UpdateView):
+class NoteUpdateView(LoginView, SuccessMessageMixin, UpdateView):
   model = Note
   fields = ['title', 'content']
   success_message = 'Your note was updated!'
@@ -34,7 +38,7 @@ class NoteUpdateView(SuccessMessageMixin, UpdateView):
       kwargs={'pk': self.object.pk}
     )
 
-class NoteDeleteView(DeleteView):
+class NoteDeleteView(LoginView, DeleteView):
   model = Note
   success_url = reverse_lazy('note-list')
   success_message = 'Your note was deleted!'
